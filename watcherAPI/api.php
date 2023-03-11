@@ -32,10 +32,6 @@ function listOrder(){
   }
 }
 
-function getConnexion(){
-  return new PDO("mysql:host=localhost;dbname=apirest", 'root', '');
-}
-
 function sendJSON($infos){
     header("Access-Control-Allow-Origin: *");
     header("Content-Type: application/json");

@@ -1,6 +1,5 @@
 <?php
-
-require_once __DIR__ . '/../vendor/autoload.php';;
+require_once __DIR__ . '/../vendor/autoload.php';
 use PhpAmqpLib\Connection\AMQPStreamConnection;
 use PhpAmqpLib\Message\AMQPMessage;
 
@@ -24,7 +23,7 @@ function createOrder($data) {
     $channel->queue_declare('ordersQueue', false, false, false, false);
 
     $msg = new AMQPMessage($uid);
-    $channel->basic_publish($msg, '', 'hello');
+    $channel->basic_publish($msg, '', 'ordersQueue');
     $channel->close();
     $connection->close();
 
@@ -34,10 +33,6 @@ function createOrder($data) {
   catch( PDOException $Exception ) {
     throw new Exception ("Error with the database connexion");
   }
-}
-
-function getConnexion(){
-  return new PDO("mysql:host=localhost;dbname=apirest", 'root', '');
 }
 
 function sendJSON($infos){

@@ -1,5 +1,5 @@
 <?php
-
+require_once("./bddConnection.php");
 require_once __DIR__ . '/vendor/autoload.php';
 use PhpAmqpLib\Connection\AMQPStreamConnection;
 
@@ -8,12 +8,13 @@ $channel = $connection->channel();
 
 $channel->queue_declare('ordersQueue', false, false, false, false);
 
-echo " [*] Waiting for messages. To exit press CTRL+C\n";
+echo " [*] En attente de message. Pour arretr le script, presser CTRL+C\n";
 
 $callback = function ($msg) {
     echo 'Reception de la commande : ', $msg->body, "\n";
+    //Possibilité de commenter le sleep pour avoir un traitement instantané de la queue;
     sleep(5);
-    $pdo = new PDO("mysql:host=localhost;dbname=apirest", 'root', '');
+    $pdo = getConnexion();
     $addToQueue = $pdo->prepare("UPDATE orders SET flag = 'Commande traitée' WHERE orders.uid = ?");
     $addToQueue->execute(array($msg->body));
     echo 'Commande traitée : ', $msg->body, "\n";

@@ -1,5 +1,6 @@
 <?php
 require_once("../api.php");
+require_once("../../bddConnection.php");
 try{
     if(!empty($_GET['route'])){
         $url = explode("/", filter_var($_GET['route'],FILTER_SANITIZE_URL));
