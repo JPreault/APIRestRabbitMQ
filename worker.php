@@ -6,7 +6,7 @@ use PhpAmqpLib\Connection\AMQPStreamConnection;
 $connection = new AMQPStreamConnection('178.170.13.229', 5672, 'guest', 'guest');
 $channel = $connection->channel();
 
-$channel->queue_declare('hello', false, false, false, false);
+$channel->queue_declare('ordersQueue', false, false, false, false);
 
 echo " [*] Waiting for messages. To exit press CTRL+C\n";
 
@@ -19,7 +19,7 @@ $callback = function ($msg) {
     echo 'Commande traitée : ', $msg->body, "\n";
 };
 
-$channel->basic_consume('hello', '', false, true, false, false, $callback);
+$channel->basic_consume('ordersQueue', '', false, true, false, false, $callback);
 
 while ($channel->is_open()) {
     $channel->wait();
