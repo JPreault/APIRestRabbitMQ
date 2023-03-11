@@ -1,0 +1,22 @@
+RewriteEngine On
+
+#RewriteRule ^(.*)$ ./router/index.php?route=$1
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+RewriteRule ^(.*)$ ./router/index.php?route=$1 [QSA,L]
+
+# Protect the htaccess file
+<Files .htaccess>
+Order Allow,Deny
+Deny from all
+</Files>
+
+# Protect the htaccess file
+<Files api.php>
+Order Allow,Deny
+Deny from all
+</Files>
+
+Options -Indexes 
